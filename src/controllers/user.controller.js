@@ -15,6 +15,29 @@ class UserController {
       return res.status(500).json({ error });
     }
   }
+
+  async findAll(req, res) {
+    try {
+      const users = await userService.findAll();
+
+      return res.status(200).json({ data: users });
+    } catch (error) {
+      return res.status(500).json({ error });
+    }
+  }
+
+  async findById(req, res) {
+    try {
+      const user = await userService.findById(req.params.id);
+      return res.status(200).json(user);
+    } catch (error) {
+      if (error.message === "Usuário não econtrado") {
+        return res.status(404).json({ error: "Usuário não econtrado" });
+      }
+
+      return res.status(500).json({ error });
+    }
+  }
 }
 
 export default new UserController();

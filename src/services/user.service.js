@@ -13,6 +13,20 @@ class UserService {
 
     return await userRepository.create(data);
   }
+
+  async findAll() {
+    return await userRepository.findAll();
+  }
+
+  async findById(id) {
+    const user = await userRepository.findById(id);
+
+    if (!user) {
+      throw new Error("Usuário não econtrado");
+    }
+
+    return user;
+  }
 }
 
 export default new UserService();
