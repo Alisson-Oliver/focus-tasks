@@ -27,6 +27,31 @@ class UserService {
 
     return user;
   }
+
+  async update(data, id) {
+    const user = await userRepository.findById(id);
+
+    if (!user) {
+      throw new Error("Usuário não econtrado");
+    }
+
+    if (data.password) {
+      data.password = await hashPassword(data.password, 10);
+    }
+
+    await userRepository.update(id, data);
+    return await this.findById(id);
+  }
+
+  async delete(id) {
+    const user = await userRepository.findById(id);
+
+    if (!user) {
+      throw new Error("Usuário não econtrado");
+    }
+
+    return await userRepository.delete(id);
+  }
 }
 
 export default new UserService();

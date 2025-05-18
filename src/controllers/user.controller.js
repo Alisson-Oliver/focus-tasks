@@ -38,6 +38,33 @@ class UserController {
       return res.status(500).json({ error });
     }
   }
+
+  async update(req, res) {
+    try {
+      const user = await userService.update(req.body, req.params.id);
+
+      return res.status(204).json(user);
+    } catch (error) {
+      if (error.message === "Usuário não econtrado") {
+        return res.status(404).json({ error: "Usuário não econtrado" });
+      }
+
+      return res.status(500).json({ error });
+    }
+  }
+
+  async delete(req, res) {
+    try {
+      await userService.delete(req.params.id);
+      return res.status(204).json();
+    } catch (error) {
+      if (error.message === "Usuário não econtrado") {
+        return res.status(404).json({ error: "Usuário não econtrado" });
+      }
+
+      return res.status(500).json({ error });
+    }
+  }
 }
 
 export default new UserController();

@@ -16,6 +16,14 @@ class UserRepository {
   async findByEmail(email) {
     return await User.findOne({ where: { email } });
   }
+
+  async update(id, data) {
+    return await User.update(data, { where: { id } });
+  }
+
+  async delete(id) {
+    return await User.destroy({ where: { id } });
+  }
 }
 
 export default new UserRepository();
